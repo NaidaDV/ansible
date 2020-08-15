@@ -1,0 +1,10 @@
+---
+  - name: installing mysql
+    package:
+      name: 
+        - mysql-server
+        - python-mysqldb
+      state: latest
+
+  - name: restarting mysql
+    service: name=mysql state=restarted enabled=yes

@@ -1,0 +1,22 @@
+---
+  - name: delete default index.html from apache
+    file:
+      name: /var/www/html/index.html
+      state: absent
+
+  - name: adding application to apache
+    copy:
+      src: "{{ role_path }}/files/"
+      dest: /var/www/html
+
+  - name: making app files accesable
+    file:
+      path: /var/www/html
+      recurse: yes
+      mode: '0555'
+
+  - name: restarting apache
+    service: name=apache2 state=restarted enabled=yes
+
+  - name: restarting php5-fpm
+    service: name=php5-fpm state=restarted enabled=yes

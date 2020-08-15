@@ -1,0 +1,32 @@
+---
+  - name: installing apache2
+    package:
+      name: apache2
+      state: latest
+
+  - name: add php repo
+    apt_repository: repo='ppa:ondrej/php'
+
+  - name: install php
+    package:
+      name=php5 state=latest
+
+  - name: installing php packages
+    package: 
+      name: "{{ item }}" 
+      state: latest 
+      update_cache: yes
+    with_items:
+        - php5-cli
+        - php5-curl
+        - php5-fpm
+        - php5-mcrypt
+        - php5-mysql
+        - php5-sqlite
+        - php5-intl
+
+  - name: restarting apache
+    service: name=apache2 state=started enabled=yes
+
+  - name: restarting php5-fpm
+    service: name=php5-fpm state=restarted enabled=yes

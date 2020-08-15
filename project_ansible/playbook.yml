@@ -1,0 +1,23 @@
+- name: Installing apache, php and web-app
+  hosts: webapp
+  become: yes
+  roles:
+    - apache_php
+    - web_app
+
+##############################################################
+
+- name: Installing nginx and loadbalancer
+  hosts: loadbalancer
+  become: yes
+  roles:
+    - nginx
+    - loadbalancer
+
+##########################################################
+- name: Installing MySQL adn database "test"
+  hosts: database
+  become: yes
+  roles:
+    - mysql
+    - db_test

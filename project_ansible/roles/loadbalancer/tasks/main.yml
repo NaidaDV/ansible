@@ -1,0 +1,26 @@
+---
+  - name: adding loadbalancer configuration
+    copy:
+      src: loadbalancer.conf
+      dest: /etc/nginx/conf.d/
+
+  - name: deleting default from sites-enabled (Debian)
+    file: 
+      path: /etc/nginx/sites-enabled/default
+      state: absent
+ 
+  - name: changing rights for nginx dir
+    file:
+      path: /etc/nginx
+      recurse: yes
+      owner: vagrant
+      mode: '0755'
+
+  - name: changing rights for logs
+    file:
+      path: /var/log/nginx/error.log
+      owner: vagrant
+      mode: '0766'
+
+  - name: restarting nginx
+    service: name=nginx state=restarted enabled=yes

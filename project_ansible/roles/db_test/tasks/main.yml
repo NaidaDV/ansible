@@ -1,0 +1,44 @@
+---
+  - name: copying database dump
+    copy:
+      src: test.sql
+      dest: /var/lib/mysql/
+
+  - name: ensure that db 'test' don't exist
+    mysql_db:
+      name: test
+      state: absent
+    
+  - name: creating database 'test'
+    mysql_db:
+      name: test
+      state: present
+
+  - name: importing dump file to 'test' database
+    mysql_db:
+      name: test
+      state: import
+      target: /var/lib/mysql/test.sql
+
+  - name: removing test.sql
+    file:
+      path: /var/lib/mysql/test.sql
+      state: absent
+
+  - name: specify mysql root-user password
+    mysql_user:
+      name: root
+      password: root
+      priv: 'test.*:All,GRANT'
+      host: 192.168.0.152
+      state: present
+
+  - name: comment bind_address in my.cnf
+    lineinfile: 
+      path: /etc/mysql/my.cnf
+      regexp: '^bind-address*'
+      state: absent
+      backup: yes
+
+  - name: restarting mysql
+    service: name=mysql state=restarted enabled=yes
