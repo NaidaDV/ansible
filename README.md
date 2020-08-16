@@ -1,4 +1,4 @@
-# Homewwork - Ansible
+# Homework - Ansible
 ## Workflow
 1) Building VMs with Vagrant and VirtualBox
 2) Updating and upgrading all VMs
