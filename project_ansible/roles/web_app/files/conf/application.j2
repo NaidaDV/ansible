@@ -1,0 +1,13 @@
+<VirtualHost {{ hostvars[groups['webapps'][0]].ansible_ssh_host }}:80>
+	ServerName examplemyapp.com
+        ServerAlias www.examplemyapp.com
+        DocumentRoot /var/www/html
+
+        <Directory /var/www/html>
+		Options -Indexes +FollowSymLinks
+		AllowOverride All
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/application-error.log
+	CustomLog ${APACHE_LOG_DIR}/application-access.log combined
+</VirtualHost>

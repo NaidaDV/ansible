@@ -6,7 +6,7 @@
 
   - name: adding application to apache
     copy:
-      src: "{{ role_path }}/files/"
+      src: "{{ role_path }}/files/app/"
       dest: /var/www/html
 
   - name: making app files accesable
@@ -14,6 +14,17 @@
       path: /var/www/html
       recurse: yes
       mode: '0555'
+  
+  - name: adding apache conf
+    template:
+      src: "{{ role_path }}/files/conf/application.j2"
+      dest: /etc/apache2/sites-available/application.conf
+
+  - name: enable apache conf 
+    shell: a2ensite application
+  
+  - name: test apache config
+    shell: apachectl configtest
     notify:
-      - restart apache
+      - restart apache2
       - restart php5-fpm
