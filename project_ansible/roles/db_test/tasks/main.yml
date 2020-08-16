@@ -39,6 +39,5 @@
       regexp: '^bind-address*'
       state: absent
       backup: yes
-
-  - name: restarting mysql
-    service: name=mysql state=restarted enabled=yes
+    notify:
+      - restart mysql

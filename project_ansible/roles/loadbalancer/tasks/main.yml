@@ -1,8 +1,8 @@
 ---
   - name: adding loadbalancer configuration
-    copy:
-      src: loadbalancer.conf
-      dest: /etc/nginx/conf.d/
+    template:
+      src: loadbalancer.j2
+      dest: /etc/nginx/conf.d/loadbalancer.conf
 
   - name: deleting default from sites-enabled (Debian)
     file: 
@@ -22,5 +22,9 @@
       owner: vagrant
       mode: '0766'
 
-  - name: restarting nginx
-    service: name=nginx state=restarted enabled=yes
+  - name: check nginx config
+    shell: nginx -t
+    register: nginx_configuration_status
+    notify:
+      - restart nginx    
+     

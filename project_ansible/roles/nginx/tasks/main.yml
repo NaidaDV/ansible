@@ -3,6 +3,5 @@
     package:
       name: nginx
       state: latest
-
-  - name: restarting nginx
-    service: name=nginx state=restarted enabled=yes
+    notify:
+      - restart nginx

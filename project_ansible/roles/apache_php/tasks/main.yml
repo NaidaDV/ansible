@@ -24,9 +24,6 @@
         - php5-mysql
         - php5-sqlite
         - php5-intl
-
-  - name: restarting apache
-    service: name=apache2 state=started enabled=yes
-
-  - name: restarting php5-fpm
-    service: name=php5-fpm state=restarted enabled=yes
+    notify:
+      - restart apache
+      - restart php5-fpm

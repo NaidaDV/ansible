@@ -1,5 +1,5 @@
   upstream webapp {
-    server 192.168.0.152;
+    server {{ hostvars[groups['webapps'][0]].ansible_ssh_host }};
   }
  	
   server {
@@ -8,7 +8,7 @@
 
     location / {
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_pass http://webapp;
+        proxy_pass http://{{ hostvars[groups['webapps'][0]].node_name }};
     }
   }
 
